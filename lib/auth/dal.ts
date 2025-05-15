@@ -6,14 +6,28 @@ import { redirect } from "next/navigation";
 import { decrypt } from "./session";
 
 export const verifySession = cache(async () => {
-  const cookie = (await cookies()).get("session")?.value;
+  const cookie = await getSession();
   const session = await decrypt(cookie);
 
   if (!session?.userId) {
     redirect("/auth/login");
   }
 
-  return { isAuth: true, role: session.role, userId: session.userId };
+  return {
+    isAuth: true,
+    role: session.role,
+    userId: session.userId,
+  };
+});
+
+export const getSession = cache(async () => {
+  const session = (await cookies()).get("session")?.value;
+
+  if (!session) {
+    return undefined;
+  }
+
+  return session;
 });
 
 // export const getUser = cache(async () => {

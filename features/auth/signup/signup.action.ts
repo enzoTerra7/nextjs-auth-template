@@ -1,14 +1,15 @@
 "use server";
-
-import { loginService } from "@/services/auth/login/login.service";
-import { LoginFormSchema } from "./login.definitions";
+import { signupService } from "@/services/auth/signup/signup.service";
+import { SignUpFormSchema } from "./signup.definitions";
 import { createSession } from "@/lib/auth/session";
 
-export async function loginAction(formData: FormData) {
+export async function signupAction(formData: FormData) {
   // Validate form fields
-  const validatedFields = LoginFormSchema.safeParse({
+  const validatedFields = SignUpFormSchema.safeParse({
+    name: formData.get("name"),
     email: formData.get("email"),
     password: formData.get("password"),
+    confirmPassword: formData.get("confirmPassword"),
   });
 
   // If any form fields are invalid, return early
@@ -20,9 +21,7 @@ export async function loginAction(formData: FormData) {
 
   // Call the provider or db to create a user...
 
-  console.log(validatedFields.data);
-
-  const response = await loginService(validatedFields.data);
+  const response = await signupService(validatedFields.data);
 
   await createSession({
     userId: response.user.id,

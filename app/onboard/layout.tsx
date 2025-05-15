@@ -1,11 +1,16 @@
 import { verifySession } from "@/lib/auth/dal";
 import { redirect } from "next/navigation";
-export default async function Home() {
+
+export default async function AppLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const session = await verifySession();
 
   if (!session) {
     redirect("/auth/login");
   }
 
-  redirect("/onboard");
+  return <>{children}</>;
 }

@@ -1,10 +1,10 @@
-import { LoginFormSchema } from "@/features/auth/login/login.definitions";
+import { SignUpFormSchema } from "@/features/auth/signup/signup.definitions";
 import type { UserRoles } from "@/lib/definitions";
 import { z } from "zod";
 
-export type LoginBody = z.infer<typeof LoginFormSchema>;
+export type SignUpBody = z.infer<typeof SignUpFormSchema>;
 
-export type LoginResponse = {
+export type SignUpResponse = {
   user: {
     id: string;
     name: string;

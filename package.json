@@ -23,9 +23,14 @@
     "next-themes": "^0.4.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "resend": "^4.5.1",
     "sonner": "^2.0.3",
     "tailwind-merge": "^3.3.0",
-    "zod": "^3.24.4"
+    "zod": "^3.24.4",
+    "zsa": "^0.6.0",
+    "zsa-openapi": "^0.3.1",
+    "zsa-react": "^0.2.3",
+    "zsa-react-query": "^0.2.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

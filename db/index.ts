@@ -6,8 +6,8 @@ import "server-only";
  * It is used to connect to the database and execute queries.
  * It is a singleton and is used in the entire application.
  */
-import { drizzle } from "drizzle-orm/neon-http";
-import { neon } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-serverless";
+import { Pool } from "@neondatabase/serverless";
 import { dbSchema } from "./table";
 /**
  * @description
@@ -18,7 +18,11 @@ import { dbSchema } from "./table";
  * @see https://drizzle.dev/docs/overview
  */
 
-const sql = neon(process.env.DATABASE_URL as string);
+const sql = new Pool({
+  connectionString: process.env.DATABASE_URL,
+});
 const db = drizzle({ client: sql, schema: dbSchema });
 
 export { db };
+
+export type DrizzleDatabase = typeof db;

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { decrypt } from "./lib/auth/session";
+import { decrypt } from "./app/_lib/auth/session";
 import { cookies } from "next/headers";
 
 export default async function middleware(req: NextRequest) {
@@ -14,7 +14,7 @@ export default async function middleware(req: NextRequest) {
 
   // 4. Redirect to /login if the user is not authenticated
   if (isProtectedRoute && !session?.userId) {
-    return NextResponse.redirect(new URL("/auth/login", req.nextUrl));
+    return NextResponse.redirect(new URL("/auth/signin", req.nextUrl));
   }
 
   // 5. Redirect to /dashboard if the user is authenticated

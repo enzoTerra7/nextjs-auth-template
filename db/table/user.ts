@@ -14,8 +14,8 @@ export const usersTable = pgTable("users", {
   email: varchar("email", { length: 255 }).notNull().unique(),
   password: varchar("password", { length: 255 }).notNull(),
   role: userRoles().default("admin").notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  emailVerifiedAt: timestamp("email_verified_at"),
 
   // table.increments("id").primary();
   // table.string("name").notNullable();
@@ -31,4 +31,6 @@ export type User = {
   email: string;
   password: string;
   role: (typeof userRoles.enumValues)[number];
+  createdAt: Date;
+  emailVerifiedAt: Date | null;
 };

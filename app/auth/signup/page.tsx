@@ -1,12 +1,12 @@
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "../../_components/ui/button";
 import {
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { SignUpForm } from "@/features/auth/signup/signup.form";
+} from "../../_components/ui/card";
+import { Separator } from "../../_components/ui/separator";
+import { SignUpForm } from "./signup.form";
 import Link from "next/link";
 export default function Register() {
   return (
@@ -20,7 +20,7 @@ export default function Register() {
         <SignUpForm />
         <Separator className="mt-2.5" />
         <Link
-          href="/auth/login"
+          href="/auth/signin"
           className={buttonVariants({
             variant: "link",
           })}

@@ -1,13 +1,16 @@
+"use client";
 import { PageProps } from "@/app/_lib/definitions";
 import { redirect } from "next/navigation";
 import { toast } from "sonner";
-import { verifyEmailAction } from "./verifyEmail.action";
 import { Logo } from "@/app/_components/ui/logo";
+import { use, useEffect } from "react";
+import { verifyEmailAction } from "./verifyEmail.action";
+import { useServerAction } from "zsa-react";
 
-export default async function VerifyEmailPage({
+export default function VerifyEmailPage({
   searchParams,
 }: PageProps<undefined, { token: string }>) {
-  const params = await searchParams;
+  const params = use(searchParams);
   const { token } = params;
 
   if (!token) {
@@ -17,9 +20,24 @@ export default async function VerifyEmailPage({
     redirect("/");
   }
 
-  verifyEmailAction({
-    token,
+  const { execute } = useServerAction(verifyEmailAction, {
+    onSuccess: () => {
+      toast.success("Email verified successfully");
+      redirect("/");
+    },
+    onError: () => {
+      toast.error("Something went wrong", {
+        description: "The url is invalid",
+      });
+      redirect("/");
+    },
   });
+
+  useEffect(() => {
+    execute({
+      token,
+    });
+  }, []);
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-4">

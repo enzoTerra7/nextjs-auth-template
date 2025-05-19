@@ -2,7 +2,7 @@ export interface IEmailService {
   sendEmail(
     from: string,
     to: string[],
-    subject: string,
-    template: React.ReactNode
+    template: React.ReactNode,
+    subject?: string
   ): Promise<void>;
 }

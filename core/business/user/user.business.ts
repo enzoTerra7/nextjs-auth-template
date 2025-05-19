@@ -2,8 +2,10 @@ import "server-only";
 import { UserRepository } from "@/core/repositories/user/user.repo";
 import { EncryptService } from "@/core/services/encrypt/encrypt.service";
 import { EmailService } from "@/core/services/email/email.service";
+import { UserDto } from "@/core/dtos/user";
+import { IUserBusiness } from "./user.business.definition";
 
-export class UserBusiness {
+export class UserBusiness implements IUserBusiness {
   private readonly _encryptService: EncryptService;
   private readonly _userRepository: UserRepository;
   private readonly _emailService: EmailService;
@@ -25,7 +27,9 @@ export class UserBusiness {
     isVerified: boolean;
   }> {
     try {
-      const user = await this._userRepository.signin(data);
+      const user = await this._userRepository.getUserByEmail({
+        email: data.email,
+      });
 
       const isPasswordValid = await this._encryptService.compare(
         data.password,
@@ -64,7 +68,7 @@ export class UserBusiness {
     try {
       const hashedPassword = await this._encryptService.hash(data.password);
 
-      const user = await this._userRepository.signup({
+      const user = await this._userRepository.createAdminUser({
         email: data.email,
         hashedPassword,
         name: data.name,
@@ -91,8 +95,14 @@ export class UserBusiness {
     await this._emailService.sendEmail(
       "Acme <onboarding@resend.dev>",
       ["enzotrr@gmail.com"],
-      "Email Verification",
-      data.template
+      data.template,
+      "Email Verification"
     );
+  }
+
+  async verifyEmail(id: number): Promise<UserDto> {
+    return await this._userRepository.editUser(id, {
+      email_verified_at: new Date(),
+    });
   }
 }

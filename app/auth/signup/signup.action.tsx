@@ -3,14 +3,18 @@ import { EmailVerifyTemplate } from "../../_components/templates/email_verify";
 
 import { createSession, encrypt } from "@/app/_lib/auth/session";
 import { SignUpSchema } from "./signup.definitions";
-import { baseProcedure } from "@/app/_lib/procedures/base";
 import { UserRoles } from "@/app/_lib/definitions";
+import { createServerAction } from "zsa";
+import { DiContainer } from "@/core/di/container";
 
-export const signUpAction = baseProcedure
-  .createServerAction()
+export const signUpAction = createServerAction()
   .input(SignUpSchema)
-  .handler(async ({ input, ctx }) => {
-    const user = await ctx.userBusiness.signup({
+  .handler(async ({ input }) => {
+    const userBusiness = DiContainer.get("IUserBusiness");
+
+    console.log("signup action");
+
+    const user = await userBusiness.signup({
       email: input.email,
       password: input.password,
       name: input.name,
@@ -28,7 +32,7 @@ export const signUpAction = baseProcedure
       userId: user.id,
     });
 
-    ctx.userBusiness.sendEmailVerification({
+    await userBusiness.sendEmailVerification({
       name: user.name,
       template: (
         <EmailVerifyTemplate name={user.name} token={verificationEmailToken} />

@@ -30,8 +30,6 @@ export function SigninForm() {
     },
   });
 
-  console.log("error", error);
-
   return (
     <form
       action={async (e) => {

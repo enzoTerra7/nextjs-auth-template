@@ -1,25 +1,18 @@
-import { UserRepository } from "@/core/repositories/user/user.repo";
 import { UserBusiness } from "@/core/business/user/user.business";
-import { createServerActionProcedure } from "zsa";
-import { EncryptService } from "@/core/services/encrypt/encrypt.service";
+import { UserRepository } from "@/core/repositories/user/user.repo";
 import { EmailService } from "@/core/services/email/email.service";
+import { EncryptService } from "@/core/services/encrypt/encrypt.service";
 
-export const baseProcedure = createServerActionProcedure().handler(() => {
-  // repositories
+export function createUserFactory() {
   const userRepository = new UserRepository();
-
-  // services
   const encryptService = new EncryptService();
   const emailService = new EmailService();
 
-  // business logics
   const userBusiness = new UserBusiness(
     userRepository,
     encryptService,
     emailService
   );
 
-  return {
-    userBusiness,
-  };
-});
+  return userBusiness;
+}

@@ -11,13 +11,13 @@ export class EmailService implements IEmailService {
   async sendEmail(
     from: string,
     to: string[],
-    subject: string,
-    template: React.ReactNode
+    template: React.ReactNode,
+    subject?: string
   ): Promise<void> {
     await this.email_client.emails.send({
       from,
       to,
-      subject,
+      subject: subject || "No subject",
       react: template,
     });
   }

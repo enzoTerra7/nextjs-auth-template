@@ -8,7 +8,7 @@ import {
 import { Separator } from "../../_components/ui/separator";
 import { SignUpForm } from "./signup.form";
 import Link from "next/link";
-export default function Register() {
+export default async function Register() {
   return (
     <>
       <CardHeader>

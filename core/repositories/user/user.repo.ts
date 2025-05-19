@@ -13,51 +13,74 @@ export class UserRepository implements IUserRepository {
     this.db = drizzle;
   }
 
-  async signin(data: { email: string }): Promise<UserDto> {
+  async getUserByEmail(data: { email: string }): Promise<UserDto> {
     const { email } = data;
-    return await this.db.transaction(async (tx) => {
-      try {
-        const user = await tx.query.usersTable.findFirst({
-          where: eq(usersTable.email, email),
-        });
+    try {
+      const user = await this.db.query.usersTable.findFirst({
+        where: eq(usersTable.email, email),
+      });
 
-        if (!user) {
-          throw new Error("Invalid credentials");
-        }
-
-        return UserDto.fromDb(user);
-      } catch (error) {
-        throw new Error("Failed to login", {
-          cause: error,
-        });
+      if (!user) {
+        throw new Error("Invalid credentials");
       }
-    });
+
+      return UserDto.fromDb(user);
+    } catch (error) {
+      throw new Error("Failed to get user by email", {
+        cause: error,
+      });
+    }
   }
 
-  async signup(data: {
+  async createAdminUser(data: {
     email: string;
     hashedPassword: string;
     name: string;
   }): Promise<UserDto> {
     const { email, hashedPassword, name } = data;
-    return await this.db.transaction(async (tx) => {
-      try {
-        const [user] = await tx
-          .insert(usersTable)
-          .values({
-            email,
-            password: hashedPassword,
-            name,
-            role: "admin",
-          })
-          .returning();
 
-        return UserDto.fromDb(user);
-      } catch (error) {
-        throw new Error("Failed to signup", {
-          cause: error,
-        });
-      }
-    });
+    try {
+      const [user] = await this.db
+        .insert(usersTable)
+        .values({
+          email,
+          password: hashedPassword,
+          name,
+          role: "admin",
+        })
+        .returning();
+
+      return UserDto.fromDb(user);
+    } catch (error) {
+      throw new Error("Failed to create admin user", {
+        cause: error,
+      });
+    }
+  }
+
+  async editUser(
+    id: number,
+    data: Partial<Omit<UserDto, "id" | "email">>
+  ): Promise<UserDto> {
+    try {
+      const [user] = await this.db
+        .update(usersTable)
+        .set({
+          ...(data.name && { name: data.name }),
+          ...(data.password && { password: data.password }),
+          ...(data.role && { role: data.role }),
+          ...(data.email_verified_at && {
+            emailVerifiedAt: data.email_verified_at,
+          }),
+        })
+        .where(eq(usersTable.id, id))
+        .returning();
+
+      return UserDto.fromDb(user);
+    } catch (error) {
+      throw new Error("Failed to edit user", {
+        cause: error,
+      });
+    }
   }
 }

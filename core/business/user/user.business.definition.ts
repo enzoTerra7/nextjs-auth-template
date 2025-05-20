@@ -1,4 +1,5 @@
 import { UserDto } from "@/core/dtos/user";
+import { User } from "@/db/table/user";
 
 export interface IUserBusiness {
   signin(data: { email: string; password: string }): Promise<{
@@ -20,4 +21,6 @@ export interface IUserBusiness {
     template: React.ReactNode;
   }): Promise<void>;
   verifyEmail(id: number): Promise<UserDto>;
+
+  getUsers(): Promise<Omit<User, "password">[]>;
 }

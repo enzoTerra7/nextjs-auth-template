@@ -4,6 +4,7 @@ import { EncryptService } from "@/core/services/encrypt/encrypt.service";
 import { EmailService } from "@/core/services/email/email.service";
 import { UserDto } from "@/core/dtos/user";
 import { IUserBusiness } from "./user.business.definition";
+import { User } from "@/db/table/user";
 
 export class UserBusiness implements IUserBusiness {
   private readonly _encryptService: EncryptService;
@@ -104,5 +105,18 @@ export class UserBusiness implements IUserBusiness {
     return await this._userRepository.editUser(id, {
       email_verified_at: new Date(),
     });
+  }
+
+  async getUsers(): Promise<Omit<User, "password">[]> {
+    const users = await this._userRepository.getUsers();
+
+    return users.map((user) => ({
+      id: user.id,
+      createdAt: user.created_at,
+      email: user.email,
+      emailVerifiedAt: user.email_verified_at,
+      name: user.name,
+      role: user.role,
+    }));
   }
 }

@@ -30,7 +30,9 @@ export default async function AppLayout({
             </MessageAlert>
           )}
           <Suspense fallback={<Skeleton className="w-full h-full" />}>
-            <div className=" w-full h-full p-4 lg:p-8">{children}</div>
+            <div className=" w-full h-full p-4 lg:p-8 space-y-4">
+              {children}
+            </div>
           </Suspense>
         </div>
       </div>

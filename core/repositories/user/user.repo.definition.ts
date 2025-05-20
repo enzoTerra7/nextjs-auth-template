@@ -8,8 +8,5 @@ export interface IUserRepository {
     name: string;
   }): Promise<UserDto>;
   editUser(id: number, data: Partial<UserDto>): Promise<UserDto>;
-  // getUserById(id: number): Promise<User>;
-  // getUserByEmail(email: string): Promise<User>;
-  // updateUser(user: User): Promise<User>;
-  // deleteUser(id: number): Promise<void>;
+  getUsers(): Promise<UserDto[]>;
 }

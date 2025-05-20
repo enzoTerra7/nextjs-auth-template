@@ -83,4 +83,15 @@ export class UserRepository implements IUserRepository {
       });
     }
   }
+
+  async getUsers(): Promise<UserDto[]> {
+    try {
+      const users = await this.db.query.usersTable.findMany();
+      return users.map(UserDto.fromDb);
+    } catch (error) {
+      throw new Error("Failed to get users", {
+        cause: error,
+      });
+    }
+  }
 }

@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import { faker } from "@faker-js/faker";
 import type { IEncryptService } from "./encrypt.service.definition";
 
 export class EncryptService implements IEncryptService {
@@ -14,5 +15,9 @@ export class EncryptService implements IEncryptService {
 
   async compare(stringToCompare: string, hash: string): Promise<boolean> {
     return await this.bcrypt.compare(stringToCompare, hash);
+  }
+
+  generateRandomPassword(): string {
+    return faker.internet.password();
   }
 }

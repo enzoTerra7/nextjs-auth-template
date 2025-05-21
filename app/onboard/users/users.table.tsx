@@ -1,6 +1,14 @@
 import { Columns, DataTable } from "@/app/_components/ui/data-table";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/app/_components/ui/dropdown-menu";
 import { User } from "@/db/table/user";
 import { format } from "date-fns";
+import { Button } from "@/app/_components/ui/button";
+import { EllipsisVerticalIcon } from "lucide-react";
 
 type UsersTableData = Omit<User, "password">;
 
@@ -34,6 +42,30 @@ export const usersTableColumns: Columns<UsersTableData>[] = [
     id: "createdAt",
     cell: (user) => format(user.createdAt, "MM/dd/yyyy"),
     className: "w-40",
+  },
+  {
+    header: "",
+    id: "actions",
+    cell: (user) => {
+      if (user.role === "admin") {
+        return null;
+      }
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <EllipsisVerticalIcon className="size-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <DropdownMenuItem>Delete</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+    className: "w-9",
   },
 ];
 

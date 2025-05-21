@@ -1,5 +1,12 @@
 import { Loader2 } from "lucide-react";
-import { Table, TableBody, TableCell, TableHeader, TableRow } from "./table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "./table";
 import { uuid } from "drizzle-orm/gel-core";
 
 type Content = string | number | boolean | React.ReactNode;
@@ -28,13 +35,15 @@ export function DataTable<T>({ columns, data, isLoading }: DataTableProps<T>) {
   const tableContainerClassName = "border rounded-lg px-2 bg-card";
 
   const tableHeader = (
-    <TableRow>
-      {headers.map((header) => (
-        <TableHeader className={header.className} key={header.id}>
-          {header.content}
-        </TableHeader>
-      ))}
-    </TableRow>
+    <TableHead>
+      <TableRow>
+        {headers.map((header) => (
+          <TableHeader className={header.className} key={header.id}>
+            {header.content}
+          </TableHeader>
+        ))}
+      </TableRow>
+    </TableHead>
   );
 
   if (isLoading) {

@@ -23,7 +23,7 @@ export const verifyEmailAction = createServerAction()
       throw new Error("Token expired");
     }
 
-    const userBusiness = DiContainer.get("IUserBusiness");
+    const userBusiness = DiContainer.get("IAuthBusiness");
 
     const user = await userBusiness.verifyEmail(session?.userId);
 

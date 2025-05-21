@@ -10,7 +10,7 @@ import { DiContainer } from "@/core/di/container";
 export const signUpAction = createServerAction()
   .input(SignUpSchema)
   .handler(async ({ input }) => {
-    const userBusiness = DiContainer.get("IUserBusiness");
+    const userBusiness = DiContainer.get("IAuthBusiness");
 
     console.log("signup action");
 

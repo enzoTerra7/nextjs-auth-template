@@ -94,4 +94,25 @@ export class UserRepository implements IUserRepository {
       });
     }
   }
+
+  async createUser(data: {
+    name: string;
+    email: string;
+    password: string;
+    role: "admin" | "user";
+  }): Promise<UserDto> {
+    try {
+      const [user] = await this.db
+        .insert(usersTable)
+        .values({
+          ...data,
+        })
+        .returning();
+      return UserDto.fromDb(user);
+    } catch (error) {
+      throw new Error("Failed to create user", {
+        cause: error,
+      });
+    }
+  }
 }

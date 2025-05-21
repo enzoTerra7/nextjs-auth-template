@@ -8,9 +8,7 @@ export function TableHead({
   className,
   ...props
 }: React.ComponentProps<"thead">) {
-  return (
-    <thead className={cn("border-b last:border-none", className)} {...props} />
-  );
+  return <thead className={cn("border-b", className)} {...props} />;
 }
 
 export function TableHeader({
@@ -50,14 +48,12 @@ export function TableBody({
   className,
   ...props
 }: React.ComponentProps<"tbody">) {
-  return (
-    <tbody className={cn("border-b last:border-none", className)} {...props} />
-  );
+  return <tbody className={cn(className)} {...props} />;
 }
 
 export function TableFooter({
   className,
   ...props
 }: React.ComponentProps<"tfoot">) {
-  return <tfoot className={cn("", className)} {...props} />;
+  return <tfoot className={cn(className)} {...props} />;
 }

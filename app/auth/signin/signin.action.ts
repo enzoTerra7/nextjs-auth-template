@@ -9,7 +9,7 @@ import { DiContainer } from "@/core/di/container";
 export const signInAction = createServerAction()
   .input(SignInSchema)
   .handler(async ({ input }) => {
-    const userBusiness = DiContainer.get("IUserBusiness");
+    const userBusiness = DiContainer.get("IAuthBusiness");
     const user = await userBusiness.signin(input);
 
     await createSession({

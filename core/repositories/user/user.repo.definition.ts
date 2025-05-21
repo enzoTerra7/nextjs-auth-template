@@ -9,4 +9,10 @@ export interface IUserRepository {
   }): Promise<UserDto>;
   editUser(id: number, data: Partial<UserDto>): Promise<UserDto>;
   getUsers(): Promise<UserDto[]>;
+  createUser(data: {
+    name: string;
+    email: string;
+    password: string;
+    role: "admin" | "user";
+  }): Promise<UserDto>;
 }

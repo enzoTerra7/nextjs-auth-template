@@ -12,4 +12,15 @@ export interface IUserBusiness {
     email: string;
     role: "admin" | "user";
   }): Promise<void>;
+  editUser(
+    id: number,
+    {
+      name,
+      role,
+    }: {
+      name: string;
+      role: "admin" | "user";
+    }
+  ): Promise<void>;
+  deleteUser(id: number): Promise<void>;
 }

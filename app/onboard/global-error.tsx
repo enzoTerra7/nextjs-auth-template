@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "../_components/ui/button";
 import { sendGlobalErrorAlert } from "./global-error.action";
 

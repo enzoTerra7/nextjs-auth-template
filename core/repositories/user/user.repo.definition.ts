@@ -15,4 +15,5 @@ export interface IUserRepository {
     password: string;
     role: "admin" | "user";
   }): Promise<UserDto>;
+  deleteUser(id: number): Promise<UserDto>;
 }

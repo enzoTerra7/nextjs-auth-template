@@ -3,12 +3,13 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuItem,
 } from "@/app/_components/ui/dropdown-menu";
 import { User } from "@/db/table/user";
 import { format } from "date-fns";
 import { Button } from "@/app/_components/ui/button";
 import { EllipsisVerticalIcon } from "lucide-react";
+import { EditUserModal } from "./edit-user-modal";
+import { DeleteUserAlert } from "./delete-user.modal";
 
 type UsersTableData = Omit<User, "password">;
 
@@ -59,8 +60,15 @@ export const usersTableColumns: Columns<UsersTableData>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <EditUserModal
+              id={user.id}
+              email={user.email}
+              name={user.name}
+              role={user.role}
+            >
+              Edit
+            </EditUserModal>
+            <DeleteUserAlert id={user.id}>Delete</DeleteUserAlert>
           </DropdownMenuContent>
         </DropdownMenu>
       );

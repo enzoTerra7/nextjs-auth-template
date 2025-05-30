@@ -1,3 +1,4 @@
+import { Separator } from "./separator";
 import { Skeleton } from "./skeleton";
 
 export function LoadingPageComponent({
@@ -17,7 +18,7 @@ export function LoadingPageComponent({
         }
       >
         <div className="flex flex-col text-start items-start gap-1 flex-1">
-          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-1/4" />
           <Skeleton className="h-2.5 w-1/3" />
         </div>
         {showCTAButton && (
@@ -26,6 +27,7 @@ export function LoadingPageComponent({
           </div>
         )}
       </div>
+      <Separator />
       {simulateTableLoading && <Skeleton className="h-40 w-full" />}
       {simulateCardsLoading && (
         <div className="flex w-full items-center gap-4 flex-wrap">

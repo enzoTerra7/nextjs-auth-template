@@ -7,7 +7,6 @@ import {
   TableHeader,
   TableRow,
 } from "./table";
-import { uuid } from "drizzle-orm/gel-core";
 
 type Content = string | number | boolean | React.ReactNode;
 
@@ -37,8 +36,11 @@ export function DataTable<T>({ columns, data, isLoading }: DataTableProps<T>) {
   const tableHeader = (
     <TableHead>
       <TableRow>
-        {headers.map((header) => (
-          <TableHeader className={header.className} key={header.id}>
+        {headers.map((header, index) => (
+          <TableHeader
+            className={header.className}
+            key={`th-${header.id}-${index}`}
+          >
             {header.content}
           </TableHeader>
         ))}
@@ -85,10 +87,13 @@ export function DataTable<T>({ columns, data, isLoading }: DataTableProps<T>) {
       <Table>
         {tableHeader}
         <TableBody>
-          {data?.map((row) => (
-            <TableRow key={`data-row-${uuid()}`}>
+          {data?.map((row, index) => (
+            <TableRow key={`data-row-${index}`}>
               {columns?.map((cell) => (
-                <TableCell key={cell.id} className={cell.className}>
+                <TableCell
+                  key={`${index}-td-${cell.id}`}
+                  className={cell.className}
+                >
                   {cell.accessorKey
                     ? (row[cell.accessorKey] as Content)
                     : cell.cell!(row)}

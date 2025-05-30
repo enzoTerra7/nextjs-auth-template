@@ -42,11 +42,8 @@ export class UserBusiness implements IUserBusiness {
     email: string;
     role: "admin" | "user";
   }) {
-    console.log("creating user");
     const password = this._encryptionService.generateRandomPassword();
-    console.log("password", password);
     const hashedPassword = await this._encryptionService.hash(password);
-    console.log("hashedPassword", hashedPassword);
 
     await this._userRepository.createUser({
       name,
@@ -55,8 +52,6 @@ export class UserBusiness implements IUserBusiness {
       role,
     });
 
-    console.log("user created");
-
     this._emailService.sendEmail(
       "Acme <onboarding@resend.dev>",
       ["enzotrr@gmail.com"],
@@ -64,8 +59,20 @@ export class UserBusiness implements IUserBusiness {
       "Email Verification"
     );
 
-    console.log("email sent");
-
     return;
+  }
+
+  async editUser(
+    id: number,
+    { name, role }: { name: string; role: "admin" | "user" }
+  ) {
+    await this._userRepository.editUser(id, {
+      name,
+      role,
+    });
+  }
+
+  async deleteUser(id: number) {
+    await this._userRepository.deleteUser(id);
   }
 }

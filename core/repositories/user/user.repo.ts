@@ -115,4 +115,18 @@ export class UserRepository implements IUserRepository {
       });
     }
   }
+
+  async deleteUser(id: number) {
+    try {
+      const [user] = await this.db
+        .delete(usersTable)
+        .where(eq(usersTable.id, id))
+        .returning();
+      return UserDto.fromDb(user);
+    } catch (error) {
+      throw new Error("Failed to delete user", {
+        cause: error,
+      });
+    }
+  }
 }

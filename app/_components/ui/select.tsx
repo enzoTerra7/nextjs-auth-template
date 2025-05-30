@@ -147,6 +147,7 @@ function Select({
   name,
   defaultValue,
   id,
+  disabled,
 }: React.ComponentProps<"select"> & {
   name: string;
   value?: string;
@@ -159,12 +160,13 @@ function Select({
       defaultValue={defaultValue}
       value={value}
       name={name}
+      disabled={disabled}
       onValueChange={(e) => onChange?.(e)}
     >
       <UISelectTrigger id={id || name}>
         <UISelectValue placeholder={placeholder} />
       </UISelectTrigger>
-      <UISelectContent>{children}</UISelectContent>
+      <UISelectContent className="mt-2.5">{children}</UISelectContent>
     </UISelect>
   );
 }

@@ -11,3 +11,17 @@ export const CreateUserSchema = z.object({
     })
     .default("user"),
 });
+
+export const EditUserSchema = z.object({
+  id: z.number(),
+  name: z.string().min(1, { message: "Name is required. " }),
+  role: z
+    .enum(["admin", "user"], {
+      message: "Invalid role. ",
+    })
+    .default("user"),
+});
+
+export const DeleteUserSchema = z.object({
+  id: z.number(),
+});

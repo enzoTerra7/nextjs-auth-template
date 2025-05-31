@@ -1,5 +1,5 @@
-import { NewUserWelcomeTemplate } from "../../../app/_components/templates/new_user_welcome";
 import "server-only";
+import { NewUserWelcomeTemplate } from "../../../app/_components/templates/new_user_welcome";
 import { UserRepository } from "@/core/repositories/user/user.repo";
 import { IUserBusiness } from "./user.business.definition";
 import { User } from "@/db/table/user";
